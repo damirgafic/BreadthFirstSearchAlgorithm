@@ -1,29 +1,3 @@
-/*
-	This solution is a more accurate translation of the text book's algorithm
-	for breadth-first search.
-
-	What's different about this implementation is that it dynamically
-	generates a search tree and it encodes the states at the bit level
-	instead of using strings.
-
-	Both of these facts may prove useful to you in future projects.  For one,
-	the text mentions using bits to encode genetic algorithms.  For another,
-	the search spaces you may deal with will be too big to manually code.
-	Finally, the sample code for the text is pretty sparse when it comes to
-	C++.
-
-	The search space in this implemenation (the tree) is procedurally
-	generated.
-
-	I may refactor this later as some of the code here is pretty smelly, but
-	it works and is mostly clear.  One big improvement would be to use smart
-	pointers.
-
-	Some methods listed in the text were ommitted or not implemented
-	because they were not needed to solve this problem.
-
-*/
-
 #include <algorithm>
 #include <deque>
 #include <iostream>
@@ -186,12 +160,6 @@ deque<short> BFSProblem::actions(short state)
 	return acts;
 }
 
-/*
-	Turns on the action bits and turns off their corresponding bits on
-	the other side of the river.  Then, returns the new encoded state.
-	So, if a state is 1100 0011 = PC | GW and the action is
-	0000 1100, then the new state returned will be 0000 1111 = |PCGW
-*/
 short BFSProblem::result(short state, short action)
 {
 	if(action == LP)
@@ -214,17 +182,17 @@ short BFSProblem::result(short state, short action)
 	return state;
 }
 
-// just a helper
+// helper function
 short BFSProblem::getInitial() const
 { return initial; }
 
-// the function for expanding a child node
+// function for expanding a child node
 Node* childNode(Problem* prob, Node* parent, short action)
 {
 	return new Node(prob->result(parent->getState(), action), action, parent);
 }
 
-// the BFS implementation, returns a list of actions as the solution
+// BFS implementation, returns a list of actions as the solution
 deque<short> BFS(BFSProblem* p)
 {
 	deque<Node*> frontier,  // all child nodes of a node
